@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>pixi.js example 1</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #000000;
+		}
+	</style>
+	<script src="pixi.js"></script>
+
+</head>
+<body>
+	<script>
+	// center of the window
+	var centerX = window.innerWidth/2;
+	var centerY = window.innerHeight/2;
+
+	// planet distances from the center of the system
+	var mercuryDist = 150;
+	var venusDist = 250;
+	var earthDist = 400;
+
+	// create an new instance of a pixi stage
+	var stage = new PIXI.Stage(0x000000);
+
+	// create a renderer instance
+	var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+
+	// add the renderer view element to the DOM
+	document.body.appendChild(renderer.view);
+
+	requestAnimFrame(animate);
+
+	var sun = new PIXI.Graphics();
+	// start 	 
+	sun.beginFill(0xCCCCCC);
+	// add Sun
+	sun.drawCircle(centerX, centerY, 100);
+	// end the fill
+	sun.endFill();
+	
+	var mercury = new PIXI.Graphics();
+	// start 	 
+	mercury.beginFill(0xCCCCCC);
+	// add Sun
+	mercury.drawCircle(centerX + mercuryDist, centerY, 2);
+	// pivot point (the Sun)
+	// mercury.pivot.set(935, 382);
+	console.log("centerX: " + centerX + " centerY: " + centerY);
+	console.log("mercury pivot point X: " + mercury.pivot.x + " Y: " + mercury.pivot.y);
+	// end the fill
+	mercury.endFill();
+
+	var venus = new PIXI.Graphics();
+	// start 	 
+	venus.beginFill(0xAAAA00);
+	// add Sun
+	venus.drawCircle(centerX + venusDist, centerY, 4);
+	// end the fill
+	venus.endFill();
+
+	var earth = new PIXI.Graphics();
+	// start 	 
+	earth.beginFill(0x0000CC);
+	// add Sun
+	earth.drawCircle(centerX + earthDist, centerY, 4);
+	// end the fill
+	earth.endFill();
+
+	// add it the stage so we see it on our screens..
+	stage.addChild(sun);
+	stage.addChild(mercury);
+	stage.addChild(venus);
+	stage.addChild(earth);
+
+
+	function animate() {
+	    requestAnimFrame(animate);
+	    
+	    mercury.rotation += 0.001;
+	    venus.rotation += 0.0005;
+	    earth.rotation += 0.0002;
+
+	    // render the stage
+	    renderer.render(stage);
+	}
+	</script>
+
+	</body>
+</html>
