@@ -19,9 +19,19 @@
 	var centerY = window.innerHeight/2;
 
 	// planet distances from the center of the system
-	var mercuryDist = 150;
-	var venusDist = 250;
-	var earthDist = 400;
+	var mercuryDist = 100;
+	var venusDist = 200;
+	var earthDist = 300;
+
+	// planet angle
+	var mercuryAlpha = 0;
+	var venusAlpha = 0;
+	var earthAlpha = 0;
+
+	// planet speeds
+	var mercurySpeed = 0.01;
+	var venusSpeed = 0.0021;
+	var earthSpeed = 0.0012;
 
 	// create an new instance of a pixi stage
 	var stage = new PIXI.Stage(0x000000);
@@ -38,7 +48,7 @@
 	// start 	 
 	sun.beginFill(0xCCCCCC);
 	// add Sun
-	sun.drawCircle(centerX, centerY, 100);
+	sun.drawCircle(centerX, centerY, 50);
 	// end the fill
 	sun.endFill();
 	
@@ -48,9 +58,9 @@
 	// add Sun
 	mercury.drawCircle(centerX + mercuryDist, centerY, 2);
 	// pivot point (the Sun)
-	// mercury.pivot.set(935, 382);
+	// mercury.pivot.set(mercury.x+50, mercury.y);
+	// mercury.anchor.set(0, 0);
 	console.log("centerX: " + centerX + " centerY: " + centerY);
-	console.log("mercury pivot point X: " + mercury.pivot.x + " Y: " + mercury.pivot.y);
 	// end the fill
 	mercury.endFill();
 
@@ -76,16 +86,33 @@
 	stage.addChild(venus);
 	stage.addChild(earth);
 
+	// mercury.x = sun.x + 200;
+    // mercury.x = sun.x + (mercury.y / Math.sin(mercuryAlpha));
+    // mercury.y = sun.y + (mercury.x * Math.sin(mercuryAlpha));
+    // mercuryAlpha += 0.001;
 
 	function animate() {
 	    requestAnimFrame(animate);
 	    
-	    mercury.rotation += 0.001;
-	    venus.rotation += 0.0005;
-	    earth.rotation += 0.0002;
+	    // rotate mercury
+	    rotate(mercury, mercuryDist, mercuryAlpha, mercurySpeed);
+	    mercuryAlpha += mercurySpeed;	    
+	    // rotate venus
+	    rotate(venus, venusDist, venusAlpha, venusSpeed);
+	    venusAlpha += venusSpeed;	    
+	    // rotate earth
+	    rotate(earth, earthDist, earthAlpha, earthSpeed);
+	    earthAlpha += earthSpeed;
 
 	    // render the stage
 	    renderer.render(stage);
+	}
+
+	function rotate(object, r, alpha, speed)
+	{
+		object.x = r * Math.cos(alpha) - r;
+		object.y = r * Math.sin(alpha);
+		//alpha += speed;
 	}
 	</script>
 
