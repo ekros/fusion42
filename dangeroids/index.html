@@ -10,28 +10,36 @@
 		}
 	</style>
 	<script src="pixi.js"></script>
-
+	<script src="planet.js"></script>
 </head>
 <body>
 	<script>
+
+	// initial positions
+	var merR = 100;
+	var merAlpha = 0;
+	var merSize = 2;
+	var venR = 200;
+	var venAlpha = 0;
+	var venSize = 4;
+	var earR = 300;
+	var earAlpha = 0;
+	var earSize = 4;
+	var marR = 400;
+	var marAlpha = 0;
+	var marSize = 3;
+
 	// center of the window
 	var centerX = window.innerWidth/2;
 	var centerY = window.innerHeight/2;
+	
+	// planets
+	var sun = new Planet(0, 0, 0, 0xCCCCCC);
+	var mercury = new Planet(merR, merAlpha, 0.05, 0xEEEEEE);
+	var venus = new Planet(venR, venAlpha, 0.04, 0xEEEEAA);
+	var earth = new Planet(earR, earAlpha, 0.03, 0x0000FF);
+	var mars = new Planet(marR, marAlpha, 0.02, 0xFF0000);
 
-	// planet distances from the center of the system
-	var mercuryDist = 100;
-	var venusDist = 200;
-	var earthDist = 300;
-
-	// planet angle
-	var mercuryAlpha = 0;
-	var venusAlpha = 0;
-	var earthAlpha = 0;
-
-	// planet speeds
-	var mercurySpeed = 0.01;
-	var venusSpeed = 0.0021;
-	var earthSpeed = 0.0012;
 
 	// create an new instance of a pixi stage
 	var stage = new PIXI.Stage(0x000000);
@@ -44,75 +52,65 @@
 
 	requestAnimFrame(animate);
 
-	var sun = new PIXI.Graphics();
-	// start 	 
-	sun.beginFill(0xCCCCCC);
 	// add Sun
+	sun.beginFill(sun.color);
 	sun.drawCircle(centerX, centerY, 50);
-	// end the fill
 	sun.endFill();
 	
-	var mercury = new PIXI.Graphics();
-	// start 	 
-	mercury.beginFill(0xCCCCCC);
-	// add Sun
-	mercury.drawCircle(centerX + mercuryDist, centerY, 2);
-	// pivot point (the Sun)
-	// mercury.pivot.set(mercury.x+50, mercury.y);
-	// mercury.anchor.set(0, 0);
-	console.log("centerX: " + centerX + " centerY: " + centerY);
-	// end the fill
+	// add Mercury
+	mercury.beginFill(mercury.color);
+	mercury.drawCircle(centerX + merR*Math.cos(merAlpha), centerY - merR*Math.sin(merAlpha), merSize);
 	mercury.endFill();
 
-	var venus = new PIXI.Graphics();
-	// start 	 
-	venus.beginFill(0xAAAA00);
-	// add Sun
-	venus.drawCircle(centerX + venusDist, centerY, 4);
-	// end the fill
+	// add Venus
+	venus.beginFill(venus.color);
+	venus.drawCircle(centerX + venR*Math.cos(venAlpha), centerY - venR*Math.sin(venAlpha), venSize);
 	venus.endFill();
 
-	var earth = new PIXI.Graphics();
-	// start 	 
-	earth.beginFill(0x0000CC);
-	// add Sun
-	earth.drawCircle(centerX + earthDist, centerY, 4);
-	// end the fill
+	// add Earth
+	earth.beginFill(earth.color);
+	earth.drawCircle(centerX + earR*Math.cos(earAlpha), centerY - earR*Math.sin(earAlpha), earSize);
 	earth.endFill();
+
+	// add Mars
+	mars.beginFill(mars.color);
+	mars.drawCircle(centerX + marR*Math.cos(marAlpha), centerY - marR*Math.sin(marAlpha), marSize);
+	mars.endFill();
 
 	// add it the stage so we see it on our screens..
 	stage.addChild(sun);
 	stage.addChild(mercury);
 	stage.addChild(venus);
 	stage.addChild(earth);
-
-	// mercury.x = sun.x + 200;
-    // mercury.x = sun.x + (mercury.y / Math.sin(mercuryAlpha));
-    // mercury.y = sun.y + (mercury.x * Math.sin(mercuryAlpha));
-    // mercuryAlpha += 0.001;
+	stage.addChild(mars);
 
 	function animate() {
 	    requestAnimFrame(animate);
 	    
 	    // rotate mercury
-	    rotate(mercury, mercuryDist, mercuryAlpha, mercurySpeed);
-	    mercuryAlpha += mercurySpeed;	    
+	    rotate(mercury, mercury.r, merAlpha, mercury.angle, mercury.speed);
+	    mercury.angle += mercury.speed;	 
+
 	    // rotate venus
-	    rotate(venus, venusDist, venusAlpha, venusSpeed);
-	    venusAlpha += venusSpeed;	    
+	    rotate(venus, venus.r, venAlpha, venus.angle, venus.speed);
+	    venus.angle += venus.speed;
+
 	    // rotate earth
-	    rotate(earth, earthDist, earthAlpha, earthSpeed);
-	    earthAlpha += earthSpeed;
+	    rotate(earth, earth.r, earAlpha, earth.angle, earth.speed);
+	    earth.angle += earth.speed;
+
+	    // rotate mars
+	    rotate(mars, mars.r, marAlpha, mars.angle, mars.speed);
+	    mars.angle += mars.speed;
 
 	    // render the stage
 	    renderer.render(stage);
 	}
 
-	function rotate(object, r, alpha, speed)
+	function rotate(object, r, initAlpha, alpha, speed)
 	{
-		object.x = r * Math.cos(alpha) - r;
-		object.y = r * Math.sin(alpha);
-		//alpha += speed;
+		object.x = r*Math.cos(alpha) - r*Math.cos(initAlpha);
+		object.y = r*Math.sin(alpha) - r*Math.sin(initAlpha);
 	}
 	</script>
 
