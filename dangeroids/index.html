@@ -17,13 +17,13 @@
 
 	// initial positions
 	var merR = 100;
-	var merAlpha = 0;
+	var merAlpha = 3.14;
 	var merSize = 2;
 	var venR = 200;
-	var venAlpha = 0;
+	var venAlpha = 1;
 	var venSize = 4;
 	var earR = 300;
-	var earAlpha = 0;
+	var earAlpha = 2;
 	var earSize = 4;
 	var marR = 400;
 	var marAlpha = 0;
@@ -34,11 +34,11 @@
 	var centerY = window.innerHeight/2;
 	
 	// planets
-	var sun = new Planet(0, 0, 0, 0xCCCCCC);
-	var mercury = new Planet(merR, merAlpha, 0.05, 0xEEEEEE);
-	var venus = new Planet(venR, venAlpha, 0.04, 0xEEEEAA);
-	var earth = new Planet(earR, earAlpha, 0.03, 0x0000FF);
-	var mars = new Planet(marR, marAlpha, 0.02, 0xFF0000);
+	var sun = new Planet(0, 0, 0, 0xCCCCCC, 50);
+	var mercury = new Planet(merR, merAlpha, 0.05, 0xEEEEEE, merSize);
+	var venus = new Planet(venR, venAlpha, 0.04, 0xEEEEAA, venSize);
+	var earth = new Planet(earR, earAlpha, 0.03, 0x0000FF, earSize);
+	var mars = new Planet(marR, marAlpha, 0.02, 0xFF0000, marSize);
 
 
 	// create an new instance of a pixi stage
@@ -53,43 +53,26 @@
 	requestAnimFrame(animate);
 
 	// add Sun
-	sun.beginFill(sun.color);
-	sun.drawCircle(centerX, centerY, 50);
-	sun.endFill();
+	sun.draw(centerX, centerY);
 	
 	// add Mercury
-	mercury.beginFill(mercury.color);
-	mercury.drawCircle(centerX + merR*Math.cos(merAlpha), centerY - merR*Math.sin(merAlpha), merSize);
-	mercury.endFill();
+	mercury.draw(centerX + merR*Math.cos(merAlpha), centerY - merR*Math.sin(merAlpha));
 
 	// add Venus
-	venus.beginFill(venus.color);
-	venus.drawCircle(centerX + venR*Math.cos(venAlpha), centerY - venR*Math.sin(venAlpha), venSize);
-	venus.endFill();
+	venus.draw(centerX + venR*Math.cos(venAlpha), centerY - venR*Math.sin(venAlpha));
 
 	// add Earth
-	earth.beginFill(earth.color);
-	earth.drawCircle(centerX + earR*Math.cos(earAlpha), centerY - earR*Math.sin(earAlpha), earSize);
-	earth.endFill();
+	earth.draw(centerX + earR*Math.cos(earAlpha), centerY - earR*Math.sin(earAlpha));
 
 	// add Mars
-	mars.beginFill(mars.color);
-	mars.drawCircle(centerX + marR*Math.cos(marAlpha), centerY - marR*Math.sin(marAlpha), marSize);
-	mars.endFill();
-
-	// add it the stage so we see it on our screens..
-	stage.addChild(sun);
-	stage.addChild(mercury);
-	stage.addChild(venus);
-	stage.addChild(earth);
-	stage.addChild(mars);
+	mars.draw(centerX + marR*Math.cos(marAlpha), centerY - marR*Math.sin(marAlpha));
 
 	function animate() {
 	    requestAnimFrame(animate);
 	    
 	    // rotate mercury
 	    rotate(mercury, mercury.r, merAlpha, mercury.angle, mercury.speed);
-	    mercury.angle += mercury.speed;	 
+	    mercury.angle += mercury.speed;
 
 	    // rotate venus
 	    rotate(venus, venus.r, venAlpha, venus.angle, venus.speed);
@@ -109,8 +92,8 @@
 
 	function rotate(object, r, initAlpha, alpha, speed)
 	{
-		object.x = r*Math.cos(alpha) - r*Math.cos(initAlpha);
-		object.y = r*Math.sin(alpha) - r*Math.sin(initAlpha);
+		object.x = -object.centerX + centerX + r*Math.cos(alpha);
+		object.y = -object.centerY + centerY + r*Math.sin(alpha);
 	}
 	</script>
 
