@@ -11,9 +11,28 @@
 	</style>
 	<script src="pixi.js"></script>
 	<script src="planet.js"></script>
+	<script src="../papaparse.min.js"></script>
 </head>
 <body>
+	<!-- <iframe id="nasa_data" name="nasa_data" width="640" height="480" src="http://neo.jpl.nasa.gov/ca/"> -->
+	</iframe>
 	<script>
+
+	// go and retrieve NASA data about Upcoming close approaches to earth
+/*	$.ajax({
+	url: "http://neo.jpl.nasa.gov/ca/",
+	cache: false
+	})
+	.done(function( html ) {
+		console.log(html);
+	});*/
+
+/*	$("#nasa_data").load(function() {
+		console.log("iframe loaded");
+		console.log($("#nasa_data").find("table").closest().html());
+	});*/
+
+
 
 	// initial positions
 	var merR = 60;
